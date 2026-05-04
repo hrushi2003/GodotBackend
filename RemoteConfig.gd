@@ -1,6 +1,6 @@
 extends Node
 
-const API_KEY = "AIzaSyCyd5yvMf3kkvxy0TcxqU3RWLDuOj-8mU8"
+const API_KEY = "YOUR_API_KEY"
 const PROJECT_ID = "silentgreensdata"       
 const APP_ID = "1:663405748090:web:39a0e7133b017ba67e00c3"
 @onready var enemy_speed_label: Label = $"../Enemy_speed_Label"
