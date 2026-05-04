@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://djkbe7fcacyhb"]
+
+[ext_resource type="Script" uid="uid://bkwm2p42i8lnd" path="res://DatabaseManager.gd" id="1_bu243"]
+[ext_resource type="Script" uid="uid://o6balh0cr427" path="res://RemoteConfig.gd" id="2_iapcu"]
+[ext_resource type="Script" uid="uid://ncctmdb78a3a" path="res://GooglePlayGames.gd" id="3_16mhu"]
+[ext_resource type="Script" uid="uid://d7shpruccnyw" path="res://Notifications.gd" id="4_psypl"]
+
+[node name="Backend" type="Control" unique_id=2120783386]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 653.0
+
+[node name="Enemy_speed_Label" type="Label" parent="." unique_id=351991735]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -124.5
+offset_right = 275.0
+offset_bottom = -42.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 59
+text = "Initialising Firebase"
+script = ExtResource("1_bu243")
+
+[node name="SignIn_Status" type="Label" parent="." unique_id=590339087]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -308.5
+offset_right = 275.0
+offset_bottom = -226.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 59
+text = "Initialising Firebase"
+script = ExtResource("1_bu243")
+
+[node name="Spawn_rate_Label" type="Label" parent="." unique_id=259489639]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -23.5
+offset_right = 275.0
+offset_bottom = 58.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 59
+text = "Initialising Firebase"
+script = ExtResource("1_bu243")
+
+[node name="RemoteConfig" type="Node" parent="." unique_id=1229558822]
+script = ExtResource("2_iapcu")
+
+[node name="GooglePlayGamesManager" type="Node" parent="." unique_id=652652370]
+script = ExtResource("3_16mhu")
+
+[node name="Button" type="Button" parent="." unique_id=524040225]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = 179.5
+offset_right = 48.0
+offset_bottom = 229.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Refresh
+"
+
+[node name="GoogleSignIN" type="Button" parent="." unique_id=609604820]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -204.5
+offset_right = 50.0
+offset_bottom = -154.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Sign In"
+
+[node name="PlayerNameLabel" type="Label" parent="." unique_id=1416448603]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = 92.5
+offset_right = 50.0
+offset_bottom = 142.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Notifications" type="Node" parent="." unique_id=583777812]
+script = ExtResource("4_psypl")
+
+[node name="Node" type="Node" parent="." unique_id=467763929]
+
+[connection signal="pressed" from="Button" to="RemoteConfig" method="_on_button_pressed"]
+[connection signal="pressed" from="GoogleSignIN" to="GooglePlayGamesManager" method="_on_google_sign_in_pressed"]
