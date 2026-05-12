@@ -26,7 +26,6 @@ func initialize():
 	var cached = LocalCache._load_local_player_backup()
 	if not cached.is_empty():
 		player_data  = cached
-		worlds_cache = LocalCache.get_all_worlds()
 		is_loaded    = true
 		print("[Player] Loaded from cache: ", player_data.get("name", "Unknown"))
 		emit_signal("player_loaded", player_data)
@@ -42,7 +41,7 @@ func initialize():
 # CREATE NEW PLAYER
 # ═══════════════════════════════════════════════════════════════════════════════
 
-func create_new_player(name: String = "Player") -> Dictionary:
+func create_new_player(playerId : String,authType : String, name: String = "Player") -> Dictionary:
 	print("[Player] Creating new player: ", name)
 
 	# Build base player data
@@ -50,14 +49,15 @@ func create_new_player(name: String = "Player") -> Dictionary:
 		"name":          name,
 		"coins":         0,
 		"totalScore":    0,
-		"currentWorld":  1,
-		"currentLevel":  1,
-		"createdAt":     Time.get_unix_time_from_system(),
-		"lastSeen":      Time.get_unix_time_from_system()
+		"currentWorld":  0,
+		"currentLevel":  0,
+		"createdAt":    Firebase.Firestore.SERVER_TIMESTAMP,
+		"lastSeen": Firebase.Firestore.SERVER_TIMESTAMP,
+		"AuthProvider": authType
 	}
 
 	# Save player document
-	await DatabaseManager.save_player(player_data)
+	await DatabaseManager._save_data(player_data, playerId)
 
 	# Save to local cache
 	
@@ -77,19 +77,6 @@ func _load_from_firestore():
 	print("[Player] Loading from Firestore...")
 
 	# Load player document
-	var data = await DatabaseManager._get_player_data()
-
-	if data.is_empty():
-		# New player — create fresh
-		print("[Player] No player found — creating new player")
-		return
-
-	player_data = data
-	print("[Player] Player found: ", player_data.get("name", "Unknown"))
-	# Save to cache
-	LocalCache._save_local_player_backup(player_data)
-	is_loaded = true
-	emit_signal("player_loaded", player_data)
 
 
 
@@ -97,12 +84,6 @@ func _load_from_firestore():
 func _sync_from_firestore_background():
 	# Runs in background without blocking game
 	print("[Player] Background sync started...")
-	var data = await DatabaseManager._get_player_data()
-
-	if not data.is_empty():
-		player_data = data
-		LocalCache._save_local_player_backup(player_data)
-	print("[Player] Background sync complete!")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

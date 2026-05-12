@@ -15,9 +15,6 @@ var CLIENT_SECRET = "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"
 const WEB_CLIENT_ID: String = "540866235695-pmhhgte71aog0bli6a204jh35aqp2rtu.apps.googleusercontent.com"
 const AUTH_TIMEOUT: float = 20.0
 
-var _sign_in_client = null
-var _pending_code: String = ""
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # INITIALIZE
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -66,23 +63,6 @@ func sign_in():
 	play_games.signIn()
 
 
-
-func _setup_gpgs() -> bool:
-	if _sign_in_client != null: return true
-	
-	if GodotPlayGameServices.initialize() != GodotPlayGameServices.PlayGamesPluginError.OK:
-		return false
-
-	var ClientScript = load("res://addons/GodotPlayGameServices/scripts/sign_in/sign_in_client.gd")
-	_sign_in_client = ClientScript.new()
-	add_child(_sign_in_client)
-	
-	# Connect signal to our local variable
-	_sign_in_client.server_side_access_requested.connect(func(code):
-		_pending_code = code
-		print("[GPGS] Signal received raw code.")
-	)
-	return true
 # ── userAuthenticated returns both success and fail in one signal ──────────────
 
 func _on_user_authenticated(is_authenticated: bool):
@@ -136,81 +116,19 @@ func _sign_in_to_firebase(auth_code: String):
 		Firebase.Auth.connect("login_failed", _on_firebase_login_failed)
 
 	var body = {
-        "postBody": "code=" + auth_code + "&providerId=playgames.google.com",
-        "requestUri": "http://localhost",
-        "returnSecureToken": true,
-        "returnIdpCredential": true
+		"postBody": "code=" + auth_code + "&providerId=playgames.google.com",
+		"requestUri": "http://localhost",
+		"returnSecureToken": true,
+		"returnIdpCredential": true
 	}
 
 	Firebase.Auth.request(
-        Firebase.Auth._base_url + Firebase.Auth._signin_with_oauth_request_url,
-        Firebase.Auth._headers,
-        HTTPClient.METHOD_POST,
-        JSON.stringify(body)
-	)
-	
-
-func _login_firebase_play_games(access_token: String):
-	print("[Firebase] Signing in with Play Games provider...")
-
-	if not Firebase.Auth.is_connected("login_succeeded", _on_firebase_login_success):
-		Firebase.Auth.connect("login_succeeded", _on_firebase_login_success)
-	if not Firebase.Auth.is_connected("login_failed", _on_firebase_login_failed):
-		Firebase.Auth.connect("login_failed", _on_firebase_login_failed)
-	if not Firebase.Auth.is_connected("auth_request", _on_raw_auth_request):
-		Firebase.Auth.connect("auth_request", _on_raw_auth_request)
-
-    # ── Try Play Games provider ────────────────────────────────────────────
-	var body = {
-        "postBody":            "access_token=" + access_token + "&providerId=playgames.google.com",
-        "requestUri":          "https://%s.firebaseapp.com/__/auth/handler" % FIREBASE_PROJECT_ID,
-        "returnIdpCredential": true,
-        "returnSecureToken":   true
-	}
-
-	Firebase.Auth.is_busy           = false
-	Firebase.Auth.auth_request_type = Firebase.Auth.Auth_Type.LOGIN_OAUTH
-
-	var err = Firebase.Auth.request(
-        Firebase.Auth._base_url + Firebase.Auth._signin_with_oauth_request_url,
-        Firebase.Auth._headers,
-        HTTPClient.METHOD_POST,
-        JSON.stringify(body)
-	)
-
-	print("[Firebase] Request sent, err: ", err)
-
-	if err != OK:
-		_sign_in_anonymous()
-	
-func _login_firebase_with_token(token: String, token_type: String):
-	if not Firebase.Auth.is_connected("login_succeeded", _on_firebase_login_success):
-		Firebase.Auth.connect("login_succeeded", _on_firebase_login_success)
-	if not Firebase.Auth.is_connected("login_failed", _on_firebase_login_failed):
-		Firebase.Auth.connect("login_failed", _on_firebase_login_failed)
-	var post_body = ""
-	if token_type == "id_token":
-		post_body = "id_token=" + token + "&providerId=google.com"
-	else:
-		post_body = "access_token=" + token + "&providerId=google.com"
-	var body = {
-		"postBody": post_body,
-		"requestUri": "https://%s.firebaseapp.com/__/auth/handler" % FIREBASE_PROJECT_ID,
-		"returnIdpCredential": true,
-		"returnSecureToken": true
-	}
-	Firebase.Auth.is_busy = false
-	Firebase.Auth.auth_request_type = Firebase.Auth.Auth_Type.LOGIN_OAUTH
-	var err = Firebase.Auth.request(
 		Firebase.Auth._base_url + Firebase.Auth._signin_with_oauth_request_url,
 		Firebase.Auth._headers,
 		HTTPClient.METHOD_POST,
 		JSON.stringify(body)
 	)
-	print("[Firebase] Request sent, err: ", err)
-	if err != OK:
-		print("[Firebase] ❌ Request failed!")
-		_sign_in_anonymous()
+	
 
 
 func _on_raw_auth_request(result_code, result_content):
@@ -232,11 +150,28 @@ func _on_firebase_login_success(auth_result: Dictionary):
 	# Save auth for next session
 	Firebase.Auth.save_auth(Firebase.Auth.auth)
 
+	_check_and_create_player(firebase_uid, user_name,"GooglePlayGames")
+
+
+
+
+func _check_and_create_player(playerId: String, name: String, authType : String):
+	print("[Player] Checking if player exists in Firestore...")
+
+	var exsisting_data = await DatabaseManager._get_player_data(playerId)
+	if exsisting_data.is_empty():
+		print("[Player] No existing player found, creating new one...")
+		return await PlayerDataManagement.create_new_player(playerId, authType, name)
+	else:
+		print("[Player] Existing player found: ", exsisting_data.get("name", "Unknown"))
+		return exsisting_data
+
 
 func _on_firebase_login_failed(error_code, message: String):
 	print("[Firebase] Login failed: ", message)
 	sign_in_status.text = "[Firebase] Failed: " + message
-	_sign_in_anonymous()
+	# logic to fallback to anonymous login or retry can be added here
+	# like _sign_in_anonymous() or retrying the login after some time
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

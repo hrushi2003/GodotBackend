@@ -4,18 +4,12 @@ extends Node
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass#_save_data()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 #--- Here is the example model for saving the data to the firebase, modify it according to the requirements
-func _save_data(data : Dictionary):
+func _save_data(data : Dictionary, player_id : String):
 	var collection : FirestoreCollection = Firebase.Firestore.collection("playersDataNew")
 	var doc := FirestoreDocument.new()
-	doc.doc_name = "player_1"
+	doc.doc_name = player_id
 	doc.fields = data
 	var retries = retriesCount
 	var success = false
@@ -25,23 +19,23 @@ func _save_data(data : Dictionary):
 		if task != null :
 			print("Saved Succesfully")
 			success = true
-			LocalCache._save_local_backup(doc.fields)
+			#LocalCache._save_local_player_backup(doc.fields)
 		else:
 			print("save failed, retrying...")
 			retries -= 1
 			await  get_tree().create_timer(1.0).timeout
 	if not success :
 		print("saving to cloud failed, saving locally")
-		LocalCache._save_local_backup(doc.fields)
+		#LocalCache._save_local_player_backup(doc.fields)
 	
 
-func _get_player_data() -> Dictionary:
+func _get_player_data(playerId : String) -> Dictionary:
 	var collection : FirestoreCollection = Firebase.Firestore.collection("playersDataNew")
 	
 	var retries = retriesCount
 	
 	while retries > 0 :
-		var task = await collection.get_doc("player_1")
+		var task = await collection.get_doc(playerId)
 		if task:
 			print("loaded from cloud")
 			var doc : FirestoreDocument = task
