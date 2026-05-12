@@ -19,10 +19,13 @@ config/icon="res://icon.svg"
 
 Firebase="*uid://cvb26atjckwlq"
 GodotPlayGameServices="*uid://b7maasgte78b"
+LocalCache="*uid://dkut1nwvl8wv1"
+DatabaseManager="*uid://bkwm2p42i8lnd"
+SignInClient="uid://rh41hayx41dx"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GodotPlayGameServices/plugin.cfg", "res://addons/godot-firebase/plugin.cfg")
+enabled=PackedStringArray("res://addons/GodotPlayGameServices/plugin.cfg", "res://addons/PlayGamesFirebaseAuth/plugin.cfg", "res://addons/godot-firebase/plugin.cfg", "res://addons/http-sse-client/plugin.cfg")
 
 [physics]
 
