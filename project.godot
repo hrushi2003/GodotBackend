@@ -18,9 +18,11 @@ config/icon="res://icon.svg"
 [autoload]
 
 Firebase="*uid://cvb26atjckwlq"
+SaveManager="*uid://duvu7jl5h7sfc"
 GodotPlayGameServices="*uid://b7maasgte78b"
 LocalCache="*uid://dkut1nwvl8wv1"
 DatabaseManager="*uid://bkwm2p42i8lnd"
+PassManager="*uid://d3uax58mqvab6"
 SignInClient="uid://rh41hayx41dx"
 PlayerDataManagement="*uid://bk5hgeq05boc7"
 
