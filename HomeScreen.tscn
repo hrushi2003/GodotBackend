@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://djkbe7fcacyhb"]
 
 [ext_resource type="Script" uid="uid://bkwm2p42i8lnd" path="res://DatabaseManager.gd" id="1_bu243"]
-[ext_resource type="Script" uid="uid://o6balh0cr427" path="res://RemoteConfig.gd" id="2_iapcu"]
 [ext_resource type="Script" uid="uid://ncctmdb78a3a" path="res://GooglePlayGames.gd" id="3_16mhu"]
 [ext_resource type="Script" uid="uid://d7shpruccnyw" path="res://Notifications.gd" id="4_psypl"]
 
@@ -45,7 +44,6 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_font_sizes/font_size = 59
 text = "Initialising Firebase"
-script = ExtResource("1_bu243")
 
 [node name="Spawn_rate_Label" type="Label" parent="." unique_id=259489639]
 layout_mode = 1
@@ -63,10 +61,8 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_font_sizes/font_size = 59
 text = "Initialising Firebase"
-script = ExtResource("1_bu243")
 
 [node name="RemoteConfig" type="Node" parent="." unique_id=1229558822]
-script = ExtResource("2_iapcu")
 
 [node name="GooglePlayGamesManager" type="Node" parent="." unique_id=652652370]
 script = ExtResource("3_16mhu")

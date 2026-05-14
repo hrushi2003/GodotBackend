@@ -10,9 +10,9 @@ var remote_config := {}
 
 
 func _ready():
-	await sign_in_anonymously()
-	await fetch_remote_config()
-	apply_config()
+	#await sign_in_anonymously()
+	#await fetch_remote_config()
+	#apply_config()
 
 
 # ─── Step 1: Anonymous Sign-In ───────────────────────────────────────────────
