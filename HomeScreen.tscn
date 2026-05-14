@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bkwm2p42i8lnd" path="res://DatabaseManager.gd" id="1_bu243"]
 [ext_resource type="Script" uid="uid://ncctmdb78a3a" path="res://GooglePlayGames.gd" id="3_16mhu"]
+[ext_resource type="Script" uid="uid://ddic7sy4crylv" path="res://AppleGameCenter.gd" id="4_ksj1l"]
 [ext_resource type="Script" uid="uid://d7shpruccnyw" path="res://Notifications.gd" id="4_psypl"]
 
 [node name="Backend" type="Control" unique_id=2120783386]
@@ -123,5 +124,25 @@ script = ExtResource("4_psypl")
 
 [node name="Node" type="Node" parent="." unique_id=467763929]
 
+[node name="AppleGameCenterManager" type="Node" parent="." unique_id=584743348]
+script = ExtResource("4_ksj1l")
+
+[node name="AppleSignIN" type="Button" parent="." unique_id=1927870562]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 283.0
+offset_top = -197.5
+offset_right = 391.0
+offset_bottom = -147.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Apple Sign In"
+
 [connection signal="pressed" from="Button" to="RemoteConfig" method="_on_button_pressed"]
 [connection signal="pressed" from="GoogleSignIN" to="GooglePlayGamesManager" method="_on_google_sign_in_pressed"]
+[connection signal="pressed" from="AppleSignIN" to="AppleGameCenterManager" method="_on_apple_sign_in_pressed"]

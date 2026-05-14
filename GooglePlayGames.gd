@@ -19,6 +19,12 @@ const AUTH_TIMEOUT: float = 20.0
 # INITIALIZE
 # ═══════════════════════════════════════════════════════════════════════════════
 
+func _ready():
+	# If we are on iOS, hide the Google button
+	if OS.get_name() == "iOS":
+		$"../GoogleSignIN".hide()
+
+
 func _initialize_play_games():
 	if Engine.has_singleton("GodotPlayGameServices"):
 		play_games = Engine.get_singleton("GodotPlayGameServices")

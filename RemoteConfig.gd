@@ -1,8 +1,9 @@
 extends Node
 
-const API_KEY = "YOUR_API_KEY"
-const PROJECT_ID = "silentgreensdata"       
-const APP_ID = "1:663405748090:web:39a0e7133b017ba67e00c3"
+#const API_KEY = "AIzaSyD9v6KTXAOXX-FcgO1oud0Ef1euuVOyeB0"
+const API_KEY = "AIzaSyBBezS-CZCZ2VPUdFxSuGH4QE1sMJmOrZI"
+const PROJECT_ID = "godot-backend-test"       
+const APP_ID = "1:271444928257:ios:9d0d9696910a75abe95d00"
 @onready var enemy_speed_label: Label = $"../Enemy_speed_Label"
 @onready var spawn_rate_label: Label = $"../Spawn_rate_Label"
 
@@ -10,9 +11,9 @@ var remote_config := {}
 
 
 func _ready():
-	#await sign_in_anonymously()
-	#await fetch_remote_config()
-	#apply_config()
+	await sign_in_anonymously()
+	await fetch_remote_config()
+	apply_config()
 
 
 # ─── Step 1: Anonymous Sign-In ───────────────────────────────────────────────
