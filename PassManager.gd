@@ -69,7 +69,8 @@ func restore_offline_passes():
 	var passes_to_add = int(elapsed / RESTORE_INTERVAL)
 
 	if passes_to_add <= 0:
-		print("[Passes] No offline passes to restore yet")
+		print("[Passes] No offli
+		ne passes to restore yet")
 		return
 
 	var new_passes                = min(current + passes_to_add, MAX_PASSES)

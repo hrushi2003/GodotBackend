@@ -46,6 +46,7 @@ func initialize():
 func create_new_player(playerId : String,authType : String, name: String = "Player") -> Dictionary:
 	print("[Player] Creating new player: ", name)
 
+	var now = await DatabaseManager.get_server_time()
 	# Build base player data
 	player_data = {
 		"name":          name,
@@ -53,8 +54,8 @@ func create_new_player(playerId : String,authType : String, name: String = "Play
 		"totalScore":    0,
 		"currentWorld":  0,
 		"currentLevel":  0,
-		"createdAt":    Firebase.Firestore.SERVER_TIMESTAMP,
-		"lastSeen": Firebase.Firestore.SERVER_TIMESTAMP,
+		"createdAt":    now,
+		"lastSeen": now,
 		"AuthProvider": authType,
 	}
 

@@ -10,6 +10,7 @@ var remote_config := {}
 
 
 func _ready():
+	pass
 	#await sign_in_anonymously()
 	#await fetch_remote_config()
 	#apply_config()

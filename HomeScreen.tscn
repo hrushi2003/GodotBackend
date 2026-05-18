@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://djkbe7fcacyhb"]
 
 [ext_resource type="Script" uid="uid://bkwm2p42i8lnd" path="res://DatabaseManager.gd" id="1_bu243"]
-[ext_resource type="Script" uid="uid://ncctmdb78a3a" path="res://GooglePlayGames.gd" id="3_16mhu"]
+[ext_resource type="Script" uid="uid://2kh1ofupcg7n" path="res://pass_status.gd" id="2_psypl"]
+[ext_resource type="Script" uid="uid://qyrqur2rb6nc" path="res://GameCenter.gd" id="3_psypl"]
 [ext_resource type="Script" uid="uid://d7shpruccnyw" path="res://Notifications.gd" id="4_psypl"]
 
 [node name="Backend" type="Control" unique_id=2120783386]
@@ -28,6 +29,25 @@ theme_override_font_sizes/font_size = 59
 text = "Initialising Firebase"
 script = ExtResource("1_bu243")
 
+[node name="pass_status" type="Label" parent="." unique_id=2022935800]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 177.99994
+offset_top = -300.5
+offset_right = 728.0
+offset_bottom = -218.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.39725307, 0.70771396)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 59
+text = "      Passes : 5 / 5"
+script = ExtResource("2_psypl")
+
 [node name="SignIn_Status" type="Label" parent="." unique_id=590339087]
 layout_mode = 1
 anchors_preset = 8
@@ -41,6 +61,7 @@ offset_right = 275.0
 offset_bottom = -226.5
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.528144, 0.6517221)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_font_sizes/font_size = 59
 text = "Initialising Firebase"
@@ -65,9 +86,9 @@ text = "Initialising Firebase"
 [node name="RemoteConfig" type="Node" parent="." unique_id=1229558822]
 
 [node name="GooglePlayGamesManager" type="Node" parent="." unique_id=652652370]
-script = ExtResource("3_16mhu")
+script = ExtResource("3_psypl")
 
-[node name="Button" type="Button" parent="." unique_id=524040225]
+[node name="generate_passes" type="Button" parent="." unique_id=524040225]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -81,8 +102,39 @@ offset_bottom = 229.5
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
-text = "Refresh
-"
+text = "Generate Pass"
+
+[node name="consume_passes" type="Button" parent="." unique_id=1035963509]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = 243.5
+offset_right = 58.0
+offset_bottom = 293.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "Consume Pass"
+
+[node name="restore_passes" type="Button" parent="." unique_id=650436905]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 83.0
+offset_top = 243.5
+offset_right = 203.0
+offset_bottom = 293.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "restore pass"
 
 [node name="GoogleSignIN" type="Button" parent="." unique_id=609604820]
 layout_mode = 1
@@ -123,5 +175,4 @@ script = ExtResource("4_psypl")
 
 [node name="Node" type="Node" parent="." unique_id=467763929]
 
-[connection signal="pressed" from="Button" to="RemoteConfig" method="_on_button_pressed"]
 [connection signal="pressed" from="GoogleSignIN" to="GooglePlayGamesManager" method="_on_google_sign_in_pressed"]

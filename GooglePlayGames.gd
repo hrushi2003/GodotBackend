@@ -1,6 +1,6 @@
 extends Node
 const FIREBASE_PROJECT_ID = "silent-greens-4e402"
-
+const API_KEY = "AIzaSyCyd5yvMf3kkvxy0TcxqU3RWLDuOj-8mU8"
 @onready var sign_in_status: Label = $"../SignIn_Status"
 @onready var player_name_label: Label = $"../PlayerNameLabel"
 

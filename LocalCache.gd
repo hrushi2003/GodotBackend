@@ -13,17 +13,17 @@ func _load_local_player_backup():
 
 func get_passes():
 	var backup = _load_local_player_backup()
-	if backup.empty():
+	if backup.is_empty():
 		print("No local backup found for passes")
 		return {}
 	var passes = backup.get("passes", {})
-	if passes.empty():
+	if passes.is_empty():
 		print("No passes data found in local backup")
 	return passes
 
 func set_passes(passes_data: Dictionary):
 	var backup = _load_local_player_backup()
-	if backup.empty():
+	if backup.is_empty():
 		print("No local backup found, cannot set passes")
 		return
 	backup["passes"] = passes_data
